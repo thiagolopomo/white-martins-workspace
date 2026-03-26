@@ -1,7 +1,7 @@
 {
-    "version": "1.0.1",
-    "notes": "Correcao de acentuacao e grafico + sistema de auto-update",
+    "version": "1.0.2",
+    "notes": "Sistema de auto-update, acentuacao corrigida, grafico ajustado",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.1/WhiteMartinsWorkspace_v1.0.1.zip",
-    "sha256": "493b0ca2512da1a40d68a85728d7bf83b4a2c64f3773e4e6ef77cfa3d4a197ae"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.2/WhiteMartinsWorkspace_v1.0.2.zip",
+    "sha256": "3a9a7f6ae0380b265a9c76f3044d2c6e441dda8f345bc962f8dc0e7c724f299a"
 }
