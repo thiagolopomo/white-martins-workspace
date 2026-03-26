@@ -1,5 +1,5 @@
 #define MyAppName "White Martins Workspace"
-#define MyAppVersion "1.0.2"
+#define MyAppVersion "1.0.3"
 #define MyAppPublisher "White Martins - A Linde Company"
 #define MyAppExeName "White Martins Workspace.exe"
 #define MyAppURL "https://www.whitemartins.com.br"
