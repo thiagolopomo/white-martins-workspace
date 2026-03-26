@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Cython
+*.c
+*.html
+
+# Virtual env
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Test data / output
+*.xlsb
+*.xlsx
+*.csv
+*.parquet
+teste_segregar/
+teste_segregar2/
+
+# Old standalone scripts (not part of app)
+Converter PDFs White Martins.py
+Extrair Abas*.py
+Overview White Martins.py
+Recon White Martins.py
