@@ -11,11 +11,9 @@ import zipfile
 import requests
 from pathlib import Path
 
-REPO_OWNER = "thiagolopomo"
-REPO_NAME = "white-martins-workspace"
-UPDATE_MANIFEST_URL = (
-    f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/master/version.json"
-)
+SUPABASE_URL = "https://jhkqfacpobwnirioskii.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impoa3FmYWNwb2J3bmlyaW9za2lpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNzU2MDEsImV4cCI6MjA4ODg1MTYwMX0.lnRnP4ESzQc54LxX-6Y-qRZsfPEv1SGg3ozd2R0N4hY"
+UPDATE_MANIFEST_KEY = "wm_update_manifest"
 
 
 def parse_version(v):
@@ -50,10 +48,21 @@ def get_updates_dir():
 def check_for_update(timeout=10):
     """Retorna dict {version, notes, url, sha256, mandatory} ou None."""
     try:
-        resp = requests.get(UPDATE_MANIFEST_URL, timeout=timeout)
+        headers = {
+            "apikey": SUPABASE_ANON_KEY,
+            "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
+        }
+        resp = requests.get(
+            f"{SUPABASE_URL}/rest/v1/app_config?key=eq.{UPDATE_MANIFEST_KEY}&select=value",
+            headers=headers,
+            timeout=timeout,
+        )
         resp.raise_for_status()
-        data = resp.json()
+        rows = resp.json()
+        if not rows:
+            return None
 
+        data = json.loads(rows[0]["value"])
         remote_ver = data.get("version", "0.0.0")
         local_ver = get_local_version()
 

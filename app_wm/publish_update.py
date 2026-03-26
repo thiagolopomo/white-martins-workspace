@@ -144,8 +144,8 @@ def main():
     )
     run(release_cmd)
 
-    # ── 9. Atualizar version.json ──
-    print(f"\n[9/10] Atualizando version.json (manifest)...")
+    # ── 9. Atualizar manifest no Supabase ──
+    print(f"\n[9/10] Atualizando manifest no Supabase...")
     download_url = f"https://github.com/{REPO_OWNER}/{REPO_NAME}/releases/download/{tag}/{zip_name}"
 
     manifest = {
@@ -155,12 +155,32 @@ def main():
         "url": download_url,
         "sha256": zip_sha,
     }
-    manifest_path = ROOT_DIR / "version.json"
-    manifest_path.write_text(json.dumps(manifest, indent=4, ensure_ascii=False), encoding="utf-8")
+
+    # Salvar no Supabase (app_config)
+    import requests as req
+    SUPABASE_URL = "https://jhkqfacpobwnirioskii.supabase.co"
+    ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impoa3FmYWNwb2J3bmlyaW9za2lpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNzU2MDEsImV4cCI6MjA4ODg1MTYwMX0.lnRnP4ESzQc54LxX-6Y-qRZsfPEv1SGg3ozd2R0N4hY"
+    sb_headers = {
+        "apikey": ANON_KEY,
+        "Authorization": f"Bearer {ANON_KEY}",
+        "Content-Type": "application/json",
+        "Prefer": "resolution=merge-duplicates,return=representation",
+    }
+    r = req.post(
+        f"{SUPABASE_URL}/rest/v1/app_config",
+        headers=sb_headers,
+        json={"key": "wm_update_manifest", "value": json.dumps(manifest)},
+        timeout=10,
+    )
+    print(f"  Supabase: {r.status_code}")
     print(f"  URL: {download_url}")
 
+    # Tambem salvar version.json local
+    manifest_path = ROOT_DIR / "version.json"
+    manifest_path.write_text(json.dumps(manifest, indent=4, ensure_ascii=False), encoding="utf-8")
+
     # ── 10. Push final ──
-    print(f"\n[10/10] Push final do manifest...")
+    print(f"\n[10/10] Push final...")
     run(f'git add version.json')
     run(f'git commit -m "update manifest: v{version}"')
     run(f'git push origin master')
