@@ -247,7 +247,7 @@ class MainShell(QMainWindow):
         tag1 = QLabel("Workspace Fiscal")
         tag1.setObjectName("TopBarTagMain")
         tag_col.addWidget(tag1)
-        tag2 = QLabel("Plataforma de gest\u00e3o tribut\u00e1ria  |  ICMS  |  Reconcilia\u00e7\u00e3o  |  Compliance  |  Atualizado!")
+        tag2 = QLabel("Plataforma de gest\u00e3o tribut\u00e1ria  |  ICMS  |  Reconcilia\u00e7\u00e3o  |  Compliance  |  UPDATE OK!")
         tag2.setObjectName("TopBarTagSub")
         tag_col.addWidget(tag2)
         layout.addLayout(tag_col)
