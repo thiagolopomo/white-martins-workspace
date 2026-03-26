@@ -72,12 +72,25 @@ def verificar_atualizacao(shell):
                         "Hash do pacote nao confere. Download corrompido.")
                     return
 
-            # Iniciar instalacao
+            # Aplicar update e reiniciar
             try:
                 from updater_client import iniciar_instalacao_update
                 iniciar_instalacao_update(source_dir)
-                QMessageBox.information(shell, "Atualizando",
-                    "O aplicativo sera fechado para concluir a atualizacao.")
+
+                # Atualizar app_version.json com a nova versao
+                import json as _json
+                from pathlib import Path as _Path
+                ver_path = _Path(__file__).with_name("app_version.json")
+                ver_path.write_text(_json.dumps({"version": info["version"]}), encoding="utf-8")
+
+                # Reiniciar o app imediatamente
+                import subprocess
+                exe = sys.executable
+                args = sys.argv[:]
+                if getattr(sys, 'frozen', False):
+                    subprocess.Popen([exe] + args[1:])
+                else:
+                    subprocess.Popen([exe] + args)
                 QApplication.quit()
             except Exception as e:
                 QMessageBox.warning(shell, "Aviso",

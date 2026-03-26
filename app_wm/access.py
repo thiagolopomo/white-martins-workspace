@@ -305,7 +305,7 @@ class TelaAcesso(QDialog):
         title.setStyleSheet("color:#1B3A4B;")
         left.addWidget(title)
 
-        subtitle = QLabel("Acesso seguro ao ambiente de gestao tributaria ICMS")
+        subtitle = QLabel("Acesso seguro ao ambiente de gest\u00e3o tribut\u00e1ria ICMS")
         subtitle.setFont(QFont("Segoe UI", 10))
         subtitle.setStyleSheet("color:#6B7E8D;")
         subtitle.setWordWrap(True)
@@ -337,7 +337,7 @@ class TelaAcesso(QDialog):
         # Usuario
         col1 = QVBoxLayout()
         col1.setSpacing(2)
-        lb_user_title = QLabel("USUARIO")
+        lb_user_title = QLabel("USU\u00c1RIO")
         lb_user_title.setFont(QFont("Segoe UI", 8, QFont.Bold))
         lb_user_title.setStyleSheet("color:#00A651; letter-spacing:1px;")
         col1.addWidget(lb_user_title)
@@ -356,7 +356,7 @@ class TelaAcesso(QDialog):
         # ID Estacao
         col2 = QVBoxLayout()
         col2.setSpacing(2)
-        lb_id_title = QLabel("ID DA ESTACAO")
+        lb_id_title = QLabel("ID DA ESTA\u00c7\u00c3O")
         lb_id_title.setFont(QFont("Segoe UI", 8, QFont.Bold))
         lb_id_title.setStyleSheet("color:#00A651; letter-spacing:1px;")
         col2.addWidget(lb_id_title)
@@ -369,7 +369,7 @@ class TelaAcesso(QDialog):
         self.lb_hash.setToolTip(self.machine_id)
         col2.addWidget(self.lb_hash)
 
-        lb_hint = QLabel("Identificador unico desta maquina")
+        lb_hint = QLabel("Identificador \u00fanico desta m\u00e1quina")
         lb_hint.setFont(QFont("Segoe UI", 8))
         lb_hint.setStyleSheet("color:#94A3B8;")
         col2.addWidget(lb_hint)
@@ -397,7 +397,7 @@ class TelaAcesso(QDialog):
         botoes = QHBoxLayout()
         botoes.setSpacing(10)
 
-        self.btn_solicitar = QPushButton("Solicitar liberacao")
+        self.btn_solicitar = QPushButton("Solicitar libera\u00e7\u00e3o")
         self.btn_solicitar.setCursor(Qt.PointingHandCursor)
         self.btn_solicitar.setFont(QFont("Segoe UI", 10, QFont.Bold))
         self.btn_solicitar.setMinimumHeight(40)
@@ -463,7 +463,7 @@ class TelaAcesso(QDialog):
             if not registro:
                 self._set_status(
                     "Acesso pendente",
-                    "Clique em 'Solicitar liberacao' para enviar sua solicitacao."
+                    "Clique em 'Solicitar libera\u00e7\u00e3o' para enviar sua solicita\u00e7\u00e3o."
                 )
                 return
 
@@ -482,22 +482,22 @@ class TelaAcesso(QDialog):
                 return
             if status == "pendente":
                 self._set_status(
-                    "Solicitacao em analise",
-                    "O workspace sera aberto automaticamente apos aprovacao."
+                    "Solicita\u00e7\u00e3o em an\u00e1lise",
+                    "O workspace ser\u00e1 aberto automaticamente ap\u00f3s aprova\u00e7\u00e3o."
                 )
                 self.iniciar_polling()
                 return
 
         except Exception as e:
-            self._set_status("Falha na verificacao", str(e), erro=True)
+            self._set_status("Falha na verifica\u00e7\u00e3o", str(e), erro=True)
 
     def solicitar_acesso(self):
         try:
             self.btn_solicitar.setEnabled(False)
             solicitar_acesso_remoto(self.machine_id, self.session_id)
             self._set_status(
-                "Solicitacao enviada",
-                "Aguardando aprovacao do administrador..."
+                "Solicita\u00e7\u00e3o enviada",
+                "Aguardando aprova\u00e7\u00e3o do administrador..."
             )
             self.iniciar_polling()
         except Exception as e:

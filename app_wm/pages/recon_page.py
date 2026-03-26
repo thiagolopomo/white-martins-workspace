@@ -181,7 +181,7 @@ class ReconBarChart(QWidget):
         n = len(self.data)
         label_w = 45
         chart_x = label_w + 6
-        chart_w = w - chart_x - 6
+        chart_w = w - chart_x - 90  # reservar espaco pro numero ao lado da barra
         bar_h = max(6, min(14, (h - (n - 1) * 4 - 16) / (n * 2)))
         group_h = bar_h * 2 + 3
         total_h = n * group_h + (n - 1) * 4
@@ -215,32 +215,36 @@ class ReconBarChart(QWidget):
 
             p.setPen(QColor("#5A6E5A"))
             p.setFont(font_val)
+            val_w = 80  # largura suficiente pra numeros grandes
             if conc > 0:
-                p.drawText(QRectF(chart_x + bw_conc + 3, y, 50, bar_h),
-                           Qt.AlignVCenter | Qt.AlignLeft, str(conc))
+                txt_conc = f"{conc:,}".replace(",", ".")
+                p.drawText(QRectF(chart_x + bw_conc + 4, y, val_w, bar_h),
+                           Qt.AlignVCenter | Qt.AlignLeft, txt_conc)
             if nconc > 0:
-                p.drawText(QRectF(chart_x + bw_nconc + 3, y + bar_h + 3, 50, bar_h),
-                           Qt.AlignVCenter | Qt.AlignLeft, str(nconc))
+                txt_nconc = f"{nconc:,}".replace(",", ".")
+                p.drawText(QRectF(chart_x + bw_nconc + 4, y + bar_h + 3, val_w, bar_h),
+                           Qt.AlignVCenter | Qt.AlignLeft, txt_nconc)
 
-        legend_y = h - 14
-        p.setFont(QFont("Segoe UI", max(6, fs - 1)))
-        legend_x = w - 200
+        legend_y = h - 16
+        legend_fs = max(7, fs)
+        p.setFont(QFont("Segoe UI", legend_fs))
+        legend_x = w - 240
 
         pill1 = QPainterPath()
-        pill1.addRoundedRect(QRectF(legend_x, legend_y - 1, 80, 14), 7, 7)
+        pill1.addRoundedRect(QRectF(legend_x, legend_y - 1, 95, 16), 8, 8)
         p.fillPath(pill1, QColor(0, 166, 81, 15))
         p.setPen(Qt.NoPen)
-        p.fillRect(QRectF(legend_x + 5, legend_y + 2, 7, 7), colors["conc"])
+        p.fillRect(QRectF(legend_x + 6, legend_y + 3, 8, 8), colors["conc"])
         p.setPen(QColor("#334155"))
-        p.drawText(QRectF(legend_x + 15, legend_y, 60, 14), Qt.AlignVCenter, "Conciliados")
+        p.drawText(QRectF(legend_x + 18, legend_y, 75, 16), Qt.AlignVCenter, "Conciliados")
 
         pill2 = QPainterPath()
-        pill2.addRoundedRect(QRectF(legend_x + 88, legend_y - 1, 110, 14), 7, 7)
+        pill2.addRoundedRect(QRectF(legend_x + 103, legend_y - 1, 130, 16), 8, 8)
         p.fillPath(pill2, QColor(232, 93, 74, 12))
         p.setPen(Qt.NoPen)
-        p.fillRect(QRectF(legend_x + 93, legend_y + 2, 7, 7), colors["nconc"])
+        p.fillRect(QRectF(legend_x + 109, legend_y + 3, 8, 8), colors["nconc"])
         p.setPen(QColor("#334155"))
-        p.drawText(QRectF(legend_x + 103, legend_y, 95, 14), Qt.AlignVCenter, "Não conciliados")
+        p.drawText(QRectF(legend_x + 121, legend_y, 110, 16), Qt.AlignVCenter, "N\u00e3o conciliados")
 
         p.end()
 
