@@ -120,6 +120,19 @@ def main():
         "--hidden-import=pages.recon_page",
         "--hidden-import=pages.overview_page",
         "--hidden-import=pages.segregar_page",
+        # Dependencias de terceiros
+        "--hidden-import=polars",
+        "--hidden-import=pandas",
+        "--hidden-import=openpyxl",
+        "--hidden-import=requests",
+        "--hidden-import=win32com",
+        "--hidden-import=win32com.client",
+        "--hidden-import=pythoncom",
+        "--hidden-import=pywintypes",
+        "--hidden-import=unicodedata",
+        "--hidden-import=csv",
+        "--hidden-import=hashlib",
+        "--collect-all=polars",
     ]
 
     # Paths
