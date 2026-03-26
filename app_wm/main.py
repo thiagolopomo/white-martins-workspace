@@ -72,35 +72,39 @@ def verificar_atualizacao(shell):
                         "Hash do pacote nao confere. Download corrompido.")
                     return
 
-            # Aplicar update e reiniciar
+            # Aplicar update: executar o instalador silenciosamente
             try:
-                from updater_client import iniciar_instalacao_update
-                iniciar_instalacao_update(source_dir)
-
-                # Atualizar app_version.json com a nova versao
-                import json as _json
+                import subprocess, glob
                 from pathlib import Path as _Path
-                # Tentar no diretorio do app primeiro, senao no AppData
-                ver_path = _Path(__file__).with_name("app_version.json")
-                try:
-                    ver_path.write_text(_json.dumps({"version": info["version"]}), encoding="utf-8")
-                except PermissionError:
-                    # Program Files nao tem permissao - salvar no AppData
-                    appdata = _Path.home() / "AppData" / "Local" / "WhiteMartinsWorkspace"
-                    appdata.mkdir(parents=True, exist_ok=True)
-                    (appdata / "app_version.json").write_text(
-                        _json.dumps({"version": info["version"]}), encoding="utf-8"
-                    )
+                import json as _json
 
-                # Reiniciar o app imediatamente
-                import subprocess
-                exe = sys.executable
-                args = sys.argv[:]
-                if getattr(sys, 'frozen', False):
-                    subprocess.Popen([exe] + args[1:])
-                else:
-                    subprocess.Popen([exe] + args)
+                # Encontrar o .exe do setup dentro do ZIP extraido
+                setup_exe = None
+                for f in _Path(source_dir).rglob("*.exe"):
+                    if "Setup" in f.name or "WhiteMartins" in f.name:
+                        setup_exe = str(f)
+                        break
+
+                if not setup_exe:
+                    QMessageBox.warning(shell, "Erro", "Setup nao encontrado no pacote.")
+                    return
+
+                # Salvar versao no AppData antes de fechar
+                appdata = _Path.home() / "AppData" / "Local" / "WhiteMartinsWorkspace"
+                appdata.mkdir(parents=True, exist_ok=True)
+                (appdata / "app_version.json").write_text(
+                    _json.dumps({"version": info["version"]}), encoding="utf-8"
+                )
+
+                # Rodar instalador silencioso (/VERYSILENT reinstala por cima)
+                subprocess.Popen([
+                    setup_exe, "/VERYSILENT", "/SUPPRESSMSGBOXES",
+                    "/NORESTART", "/CLOSEAPPLICATIONS", "/RESTARTAPPLICATIONS"
+                ])
+
+                # Fechar o app (o instalador reabre automaticamente)
                 QApplication.quit()
+
             except Exception as e:
                 QMessageBox.warning(shell, "Aviso",
                     f"Atualizacao sera aplicada no proximo inicio.\n{e}")
