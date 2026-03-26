@@ -1,7 +1,7 @@
 {
-    "version": "1.0.7",
-    "notes": "Teste final de auto-update - deve mostrar UPDATE OK no header",
+    "version": "1.0.8",
+    "notes": "Fix pdfplumber e dependencias ausentes no build",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.7/WhiteMartinsWorkspace_v1.0.7.zip",
-    "sha256": "c98e8a115cb624a40a418d0e6931b9b311687d4708b0063a87f75245f39e4fe9"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.8/WhiteMartinsWorkspace_v1.0.8.zip",
+    "sha256": "d20ed51b9a1177d6f3e0ce5ad5b27b9d35d8def644f1bea160ff72bdf76c4f6e"
 }
