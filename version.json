@@ -1,7 +1,7 @@
 {
-    "version": "1.0.9",
-    "notes": "Fix auto-restart apos update",
+    "version": "1.0.10",
+    "notes": "Fix deteccao empresa por divisao no Converter PDFs - 2337 agora corretamente Gine",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.9/WhiteMartinsWorkspace_v1.0.9.zip",
-    "sha256": "b56250b9d5e56eb142824c507953818434e49b94659b411b8e788fbd71cff53d"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.10/WhiteMartinsWorkspace_v1.0.10.zip",
+    "sha256": "de95ba2b630b8d189ecb0f7fe0698337beb28ec369f261b867d03b2c0fe99b1d"
 }
