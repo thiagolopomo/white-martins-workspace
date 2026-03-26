@@ -221,6 +221,9 @@ class ConverterPage(QWidget):
         self.log_output.clear()
         self.status_label.setText("Iniciando...")
 
+        from access import log_async
+        log_async("converter_pdfs_iniciado", {"pasta": os.path.basename(pasta)})
+
         self._worker = ConverterWorker(pasta)
         self._worker.progress.connect(self._on_progress)
         self._worker.finished.connect(self._on_finished)
@@ -237,6 +240,8 @@ class ConverterPage(QWidget):
         self.progress.setValue(100)
         self.hero.set_progress(100)
         self.status_label.setText(f"Concluido! {len(arquivos)} arquivo(s).")
+        from access import log_async
+        log_async("converter_pdfs_concluido", {"arquivos_gerados": len(arquivos)})
         for arq in arquivos:
             self.log_output.append(f"  -> {arq}")
         self.btn_executar.setEnabled(True)

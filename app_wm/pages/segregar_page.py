@@ -253,6 +253,9 @@ class SegregarPage(QWidget):
         self.log_output.clear()
         self.status_label.setText("Iniciando...")
 
+        from access import log_async
+        log_async("segregar_iniciado", {"arquivo": os.path.basename(arquivo)})
+
         self._worker = SegregarWorker(arquivo, saida)
         self._worker.progress.connect(self._on_progress)
         self._worker.finished.connect(self._on_finished)
@@ -292,6 +295,8 @@ class SegregarPage(QWidget):
         self.hero.set_progress(100)
         self.status_label.setText(f"Concluído! {len(arquivos)} arquivo(s).")
         self.log_output.append(f"\n{len(arquivos)} arquivos gerados!")
+        from access import log_async
+        log_async("segregar_concluido", {"arquivos_gerados": len(arquivos)})
         self._info_labels["Arquivos gerados"].setText(str(len(arquivos)))
         self._info_labels["Menor divisão (linhas)"].setText("—")
         self.btn_executar.setEnabled(True)

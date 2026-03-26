@@ -221,6 +221,9 @@ class OverviewPage(QWidget):
         self.log_output.clear()
         self.status_label.setText("Gerando overviews...")
 
+        from access import log_async
+        log_async("overview_iniciado", {"pasta": os.path.basename(pasta)})
+
         self._worker = OverviewWorker(pasta)
         self._worker.progress.connect(self._on_progress)
         self._worker.finished.connect(self._on_finished)
@@ -240,6 +243,8 @@ class OverviewPage(QWidget):
         for arq in arquivos:
             self.log_output.append(f"  -> {arq}")
         self.btn_executar.setEnabled(True)
+        from access import log_async
+        log_async("overview_concluido", {"overviews_gerados": len(arquivos)})
 
     def _on_error(self, msg):
         self.progress.setValue(0)

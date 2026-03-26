@@ -488,6 +488,13 @@ class ReconPage(QWidget):
         else:
             self.status_label.setText("Iniciando pipeline...")
 
+        from access import log_async
+        log_async("reconciliacao_iniciada", {
+            "empresa": empresa or "desconhecida",
+            "razao": os.path.basename(razao),
+            "fiscal": os.path.basename(fiscal),
+        })
+
         self._worker = ReconWorker(razao, fiscal, saida)
         self._worker.progress.connect(self._on_progress)
         self._worker.finished.connect(self._on_finished)
@@ -549,6 +556,9 @@ class ReconPage(QWidget):
         self.status_label.setText(f"Concluído! CSVs em: {pasta_csvs}")
         self.log_output.append(f"Pipeline finalizado! Saída: {pasta_csvs}")
         self.btn_executar.setEnabled(True)
+        from access import log_async
+        empresa = getattr(self, "_empresa_detectada", None) or "desconhecida"
+        log_async("reconciliacao_concluida", {"empresa": empresa, "saida": pasta_csvs})
         for key in self._info_labels:
             if "Etapa" in key:
                 self._info_labels[key].setText("Concluída")
