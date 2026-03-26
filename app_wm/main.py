@@ -14,14 +14,77 @@ try:
 except Exception:
     pass
 
-from PySide6.QtWidgets import QApplication
-from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QApplication, QMessageBox, QProgressDialog
+from PySide6.QtCore import QTimer, Qt
 
 from resources import obter_icone, carregar_fontes_app
 from theme import build_app_qss
 from splash import SplashScreen
 from access import TelaAcesso
 from shell import MainShell
+
+
+def verificar_atualizacao(shell):
+    """Verifica se ha update disponivel e oferece ao usuario."""
+    try:
+        from update_service import check_for_update, download_update_package, extract_update_package
+        from update_dialog import UpdateDialog
+
+        info = check_for_update()
+        if not info:
+            return
+
+        dlg = UpdateDialog(info, shell)
+        dlg.setWindowIcon(shell.windowIcon())
+        result = dlg.exec()
+
+        if result == UpdateDialog.Accepted and dlg._accepted:
+            url = info.get("url", "")
+            if not url:
+                QMessageBox.warning(shell, "Erro", "URL de download nao disponivel.")
+                return
+
+            # Progress dialog
+            progress = QProgressDialog("Baixando atualizacao...", "Cancelar", 0, 100, shell)
+            progress.setWindowTitle("Atualizando")
+            progress.setWindowModality(Qt.WindowModal)
+            progress.setMinimumDuration(0)
+            progress.show()
+
+            def on_progress(pct, msg):
+                progress.setValue(pct)
+                progress.setLabelText(msg)
+                QApplication.processEvents()
+
+            zip_path = download_update_package(url, progress_callback=on_progress)
+
+            progress.setLabelText("Extraindo...")
+            source_dir = extract_update_package(zip_path, progress_callback=on_progress)
+            progress.close()
+
+            # Verificar hash se disponivel
+            expected_sha = info.get("sha256", "")
+            if expected_sha:
+                from update_service import sha256_file
+                actual_sha = sha256_file(zip_path)
+                if actual_sha != expected_sha:
+                    QMessageBox.critical(shell, "Erro",
+                        "Hash do pacote nao confere. Download corrompido.")
+                    return
+
+            # Iniciar instalacao
+            try:
+                from updater_client import iniciar_instalacao_update
+                iniciar_instalacao_update(source_dir)
+                QMessageBox.information(shell, "Atualizando",
+                    "O aplicativo sera fechado para concluir a atualizacao.")
+                QApplication.quit()
+            except Exception as e:
+                QMessageBox.warning(shell, "Aviso",
+                    f"Atualizacao sera aplicada no proximo inicio.\n{e}")
+
+    except Exception as e:
+        print(f"[UPDATE] Erro: {e}")
 
 
 def main():
@@ -50,6 +113,9 @@ def main():
             shell.setWindowIcon(icone)
             shell.show()
             shell.showMaximized()
+
+            # Verificar atualizacao 1s apos abrir
+            QTimer.singleShot(1000, lambda: verificar_atualizacao(shell))
         else:
             app.quit()
 
