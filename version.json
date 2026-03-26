@@ -1,7 +1,7 @@
 {
-    "version": "1.0.8",
-    "notes": "Fix pdfplumber e dependencias ausentes no build",
+    "version": "1.0.9",
+    "notes": "Fix auto-restart apos update",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.8/WhiteMartinsWorkspace_v1.0.8.zip",
-    "sha256": "d20ed51b9a1177d6f3e0ce5ad5b27b9d35d8def644f1bea160ff72bdf76c4f6e"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.9/WhiteMartinsWorkspace_v1.0.9.zip",
+    "sha256": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85"
 }
