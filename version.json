@@ -1,7 +1,7 @@
 {
-    "version": "1.0.4",
-    "notes": "Fix: permissao de escrita em Program Files + teste auto-update",
+    "version": "1.0.5",
+    "notes": "Header atualizado - teste de auto-update nas maquinas",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.4/WhiteMartinsWorkspace_v1.0.4.zip",
-    "sha256": "13bfed1da7e16ee9c66167f439d4c3c447a8b71631ffba341de888681d4d65de"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.5/WhiteMartinsWorkspace_v1.0.5.zip",
+    "sha256": "fd22841d7d7e18f8f28bad2f407ec5dc340832e8157107658650680af02b265c"
 }
