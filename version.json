@@ -1,7 +1,7 @@
 {
-    "version": "1.0.2",
-    "notes": "Sistema de auto-update, acentuacao corrigida, grafico ajustado",
+    "version": "1.0.3",
+    "notes": "Teste de auto-update - versao exibida no header",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.2/WhiteMartinsWorkspace_v1.0.2.zip",
-    "sha256": "3a9a7f6ae0380b265a9c76f3044d2c6e441dda8f345bc962f8dc0e7c724f299a"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.3/WhiteMartinsWorkspace_v1.0.3.zip",
+    "sha256": "76fed598d1700682b7b7ddcdaaa12979d46eefc3ebfbe9f8c500e9db6abbd60f"
 }
