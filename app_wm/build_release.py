@@ -102,37 +102,51 @@ def main():
         add_data.append(f'--add-data={rt_stage};pyarmor_runtime_000000')
 
     # Hidden imports necessários
-    hidden = [
-        "--hidden-import=logic",
-        "--hidden-import=logic.recon_logic",
-        "--hidden-import=logic.overview_logic",
-        "--hidden-import=logic.segregar_logic",
-        "--hidden-import=logic.converter_logic",
-        "--hidden-import=logic.empresa_detect",
-        "--hidden-import=workers",
-        "--hidden-import=workers.recon_worker",
-        "--hidden-import=workers.overview_worker",
-        "--hidden-import=workers.segregar_worker",
-        "--hidden-import=workers.converter_worker",
-        "--hidden-import=pages",
-        "--hidden-import=pages.dashboard_page",
-        "--hidden-import=pages.converter_page",
-        "--hidden-import=pages.recon_page",
-        "--hidden-import=pages.overview_page",
-        "--hidden-import=pages.segregar_page",
-        # Dependencias de terceiros
-        "--hidden-import=polars",
-        "--hidden-import=pandas",
-        "--hidden-import=openpyxl",
-        "--hidden-import=requests",
-        "--hidden-import=win32com",
-        "--hidden-import=win32com.client",
-        "--hidden-import=pythoncom",
-        "--hidden-import=pywintypes",
-        "--hidden-import=unicodedata",
-        "--hidden-import=csv",
-        "--hidden-import=hashlib",
+    hidden_modules = [
+        # App modules
+        "logic", "logic.recon_logic", "logic.overview_logic",
+        "logic.segregar_logic", "logic.converter_logic", "logic.empresa_detect",
+        "workers", "workers.recon_worker", "workers.overview_worker",
+        "workers.segregar_worker", "workers.converter_worker",
+        "pages", "pages.dashboard_page", "pages.converter_page",
+        "pages.recon_page", "pages.overview_page", "pages.segregar_page",
+        # PDF processing (pdfplumber + dependencies)
+        "pdfplumber", "pdfplumber.page", "pdfplumber.pdf", "pdfplumber.table",
+        "pdfplumber.utils", "pdfplumber.display", "pdfplumber.ctm",
+        "pdfminer", "pdfminer.six", "pdfminer.high_level", "pdfminer.layout",
+        "pdfminer.pdfinterp", "pdfminer.pdfpage", "pdfminer.pdfparser",
+        "pdfminer.pdfdocument", "pdfminer.pdftypes", "pdfminer.pdfcolor",
+        "pdfminer.converter", "pdfminer.cmapdb", "pdfminer.psparser",
+        "pdfminer.encodingdb", "pdfminer.glyphlist", "pdfminer.utils",
+        "pdfminer.image", "pdfminer.ccitt", "pdfminer.arcfour",
+        "pdfminer.lzw", "pdfminer.ascii85", "pdfminer.runlength",
+        "pdfminer.rijndael",
+        # Data processing
+        "polars", "pandas", "openpyxl", "openpyxl.styles",
+        "openpyxl.workbook", "openpyxl.worksheet",
+        # Image processing (pdfplumber dependency)
+        "PIL", "PIL.Image", "PIL._imaging",
+        # Network / HTTP
+        "requests", "urllib3", "certifi", "idna", "charset_normalizer",
+        # Cryptography (pdfminer.six dependency)
+        "cryptography", "cryptography.hazmat", "cryptography.hazmat.primitives",
+        "cryptography.hazmat.primitives.ciphers",
+        "cryptography.hazmat.backends",
+        # Windows COM
+        "win32com", "win32com.client", "pythoncom", "pywintypes",
+        # Standard library
+        "unicodedata", "csv", "hashlib", "json", "re", "os", "sys",
+        "multiprocessing", "ctypes", "threading", "subprocess",
+        "getpass", "socket", "platform", "uuid", "time", "glob",
+        "shutil", "tempfile", "zipfile", "pathlib",
+    ]
+    hidden = [f"--hidden-import={m}" for m in hidden_modules]
+    hidden += [
         "--collect-all=polars",
+        "--collect-all=pdfminer",
+        "--collect-all=pdfplumber",
+        "--collect-all=charset_normalizer",
+        "--collect-all=certifi",
     ]
 
     # Paths
