@@ -1,7 +1,7 @@
 {
-    "version": "1.0.5",
-    "notes": "Header atualizado - teste de auto-update nas maquinas",
+    "version": "1.0.6",
+    "notes": "Update agora instala corretamente - texto Atualizado no header",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.5/WhiteMartinsWorkspace_v1.0.5.zip",
-    "sha256": "fd22841d7d7e18f8f28bad2f407ec5dc340832e8157107658650680af02b265c"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.6/WhiteMartinsWorkspace_v1.0.6.zip",
+    "sha256": "bfb740151df5ce7fec5b545ddfd5a4d57b414ef874b45f82727fb0faf04a23f8"
 }
