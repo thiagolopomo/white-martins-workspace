@@ -1,7 +1,7 @@
 {
-    "version": "1.0.3",
-    "notes": "Teste de auto-update - versao exibida no header",
+    "version": "1.0.4",
+    "notes": "Fix: permissao de escrita em Program Files + teste auto-update",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.3/WhiteMartinsWorkspace_v1.0.3.zip",
-    "sha256": "76fed598d1700682b7b7ddcdaaa12979d46eefc3ebfbe9f8c500e9db6abbd60f"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.4/WhiteMartinsWorkspace_v1.0.4.zip",
+    "sha256": "13bfed1da7e16ee9c66167f439d4c3c447a8b71631ffba341de888681d4d65de"
 }
