@@ -71,7 +71,7 @@ def iniciar_instalacao_update(source_dir):
 
 
 def _update_simples(source_dir, base_dir):
-    """Update sem updater.exe - copia arquivos diretamente."""
+    """Update sem updater.exe - copia arquivos para onde tiver permissao."""
     import shutil as sh
     source = Path(source_dir)
     target = Path(base_dir)
@@ -83,12 +83,9 @@ def _update_simples(source_dir, base_dir):
             dest.parent.mkdir(parents=True, exist_ok=True)
             try:
                 sh.copy2(item, dest)
+            except PermissionError:
+                pass  # Program Files - sem permissao, pula
             except Exception:
-                pass  # arquivo em uso, sera atualizado no proximo restart
-
-    # Atualizar version
-    ver_src = source / "app_version.json"
-    if ver_src.exists():
-        sh.copy2(ver_src, target / "app_version.json")
+                pass
 
     return True

@@ -24,6 +24,14 @@ def parse_version(v):
 
 
 def get_local_version():
+    # Checar AppData primeiro (versao atualizada pelo updater)
+    try:
+        appdata = Path.home() / "AppData" / "Local" / "WhiteMartinsWorkspace" / "app_version.json"
+        if appdata.exists():
+            return json.loads(appdata.read_text(encoding="utf-8-sig")).get("version", "0.0.0")
+    except Exception:
+        pass
+    # Fallback: checar no diretorio do app
     try:
         p = Path(__file__).with_name("app_version.json")
         if p.exists():

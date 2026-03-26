@@ -80,8 +80,17 @@ def verificar_atualizacao(shell):
                 # Atualizar app_version.json com a nova versao
                 import json as _json
                 from pathlib import Path as _Path
+                # Tentar no diretorio do app primeiro, senao no AppData
                 ver_path = _Path(__file__).with_name("app_version.json")
-                ver_path.write_text(_json.dumps({"version": info["version"]}), encoding="utf-8")
+                try:
+                    ver_path.write_text(_json.dumps({"version": info["version"]}), encoding="utf-8")
+                except PermissionError:
+                    # Program Files nao tem permissao - salvar no AppData
+                    appdata = _Path.home() / "AppData" / "Local" / "WhiteMartinsWorkspace"
+                    appdata.mkdir(parents=True, exist_ok=True)
+                    (appdata / "app_version.json").write_text(
+                        _json.dumps({"version": info["version"]}), encoding="utf-8"
+                    )
 
                 # Reiniciar o app imediatamente
                 import subprocess
