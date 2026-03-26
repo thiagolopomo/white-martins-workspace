@@ -1,7 +1,7 @@
 {
-    "version": "1.0.0",
-    "notes": "Versao inicial - Converter PDFs, Reconciliacao, Overview, Segregar",
+    "version": "1.0.1",
+    "notes": "Corrigido acentuacao na tela de acesso e numeros cortados no grafico de reconciliacao",
     "mandatory": false,
-    "url": "",
-    "sha256": ""
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.1/WhiteMartinsWorkspace_v1.0.1.zip",
+    "sha256": "e1e907319db446985a58c7a30815a614c336ba441cd7c5d5e4d9959580d24859"
 }
