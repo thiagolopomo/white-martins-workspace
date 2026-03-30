@@ -1,7 +1,7 @@
 {
-    "version": "1.0.12",
-    "notes": "Fix dependencias win32timezone e todas as libs",
+    "version": "1.0.13",
+    "notes": "Fix win32timezone path e hash corrompido",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.12/WhiteMartinsWorkspace_v1.0.12.zip",
-    "sha256": "405881f7679a61502ebd4317b4215150ccf4abbfc0e7e339b627d96f309fcb54"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.13/WhiteMartinsWorkspace_v1.0.13.zip",
+    "sha256": "157a84e9ec6b64c4603e8e3f070d05b210417a7f97124be03706dd55ada1b355"
 }
