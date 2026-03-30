@@ -30,13 +30,26 @@ def main():
     print("  WHITE MARTINS WORKSPACE - BUILD RELEASE")
     print("=" * 60)
 
-    # Limpar build anterior
+    # Limpar build anterior (com retry para arquivos travados)
     if dist.exists():
-        shutil.rmtree(dist, ignore_errors=True)
-    dist.mkdir()
+        import time as _time
+        for _attempt in range(3):
+            shutil.rmtree(dist, ignore_errors=True)
+            if not dist.exists():
+                break
+            # Tentar matar processos que podem travar arquivos
+            subprocess.run("taskkill /F /IM EXCEL.EXE", shell=True,
+                           capture_output=True, creationflags=0x08000000)
+            _time.sleep(2)
+        # Se ainda existe, limpar subdiretorios importantes
+        for sub in ["stage", "build_temp", "obfuscated", "output"]:
+            sub_path = dist / sub
+            if sub_path.exists():
+                shutil.rmtree(sub_path, ignore_errors=True)
+    dist.mkdir(exist_ok=True)
 
     stage = dist / "stage"
-    stage.mkdir()
+    stage.mkdir(exist_ok=True)
 
     # ── 1. Copiar app ──
     print("\n[1/4] Copiando arquivos...")
