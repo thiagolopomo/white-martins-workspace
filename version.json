@@ -1,7 +1,7 @@
 {
-    "version": "1.0.11",
-    "notes": "Fix auto-restart apos update com log de debug",
+    "version": "1.0.12",
+    "notes": "Fix hidden imports PyInstaller - adiciona win32timezone, polars, pdfplumber, PySide6, pandas, openpyxl, PIL e todas dependencias",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.11/WhiteMartinsWorkspace_v1.0.11.zip",
-    "sha256": "3efe131f06045fec580c10d1a1fb9486181ba3a30df130384c001c59f3876641"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.12/WhiteMartinsWorkspace_v1.0.12.zip",
+    "sha256": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85"
 }
