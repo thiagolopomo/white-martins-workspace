@@ -3,5 +3,5 @@
     "notes": "Fix hidden imports PyInstaller - adiciona win32timezone, polars, pdfplumber, PySide6, pandas, openpyxl, PIL e todas dependencias",
     "mandatory": false,
     "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.12/WhiteMartinsWorkspace_v1.0.12.zip",
-    "sha256": "8739c76e681f900923b900c9df0ef75cf421d39cabb54650c4b9ad19b6a76d85"
+    "sha256": "ad19a1c12018b24bd4a53599456c72e92ffef49d24e8d76fefe2eaa01e71e775"
 }
