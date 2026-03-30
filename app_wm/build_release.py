@@ -101,7 +101,7 @@ def main():
     if rt_stage.exists():
         add_data.append(f'--add-data={rt_stage};pyarmor_runtime_000000')
 
-    # Hidden imports necessários
+    # Hidden imports necessários - COMPLETO (v1.0.12)
     hidden_modules = [
         # App modules
         "logic", "logic.recon_logic", "logic.overview_logic",
@@ -113,6 +113,7 @@ def main():
         # PDF processing (pdfplumber + dependencies)
         "pdfplumber", "pdfplumber.page", "pdfplumber.pdf", "pdfplumber.table",
         "pdfplumber.utils", "pdfplumber.display", "pdfplumber.ctm",
+        "pdfplumber.convert", "pdfplumber._typing",
         "pdfminer", "pdfminer.six", "pdfminer.high_level", "pdfminer.layout",
         "pdfminer.pdfinterp", "pdfminer.pdfpage", "pdfminer.pdfparser",
         "pdfminer.pdfdocument", "pdfminer.pdftypes", "pdfminer.pdfcolor",
@@ -120,25 +121,61 @@ def main():
         "pdfminer.encodingdb", "pdfminer.glyphlist", "pdfminer.utils",
         "pdfminer.image", "pdfminer.ccitt", "pdfminer.arcfour",
         "pdfminer.lzw", "pdfminer.ascii85", "pdfminer.runlength",
-        "pdfminer.rijndael",
-        # Data processing
-        "polars", "pandas", "openpyxl", "openpyxl.styles",
+        "pdfminer.rijndael", "pdfminer.pdfdevice", "pdfminer.pdffont",
+        "pdfminer.casting", "pdfminer._saslprep",
+        # Data processing - polars
+        "polars", "polars.io", "polars.io.csv", "polars.io.parquet",
+        "polars.datatypes", "polars.expr", "polars.frame",
+        "polars.series", "polars.lazy", "polars.functions",
+        "polars.selectors", "polars.utils",
+        # Data processing - pandas
+        "pandas", "pandas.core", "pandas.core.frame", "pandas.core.series",
+        "pandas.core.groupby", "pandas.core.reshape",
+        "pandas.io", "pandas.io.excel", "pandas.io.parsers",
+        "pandas._libs", "pandas._libs.tslibs",
+        # Data processing - openpyxl
+        "openpyxl", "openpyxl.styles", "openpyxl.styles.named_styles",
         "openpyxl.workbook", "openpyxl.worksheet",
+        "openpyxl.cell", "openpyxl.utils",
+        "openpyxl.reader", "openpyxl.reader.excel",
+        "openpyxl.writer", "openpyxl.writer.excel",
+        "openpyxl.worksheet.worksheet",
         # Image processing (pdfplumber dependency)
         "PIL", "PIL.Image", "PIL._imaging",
+        "PIL.PngImagePlugin", "PIL.JpegImagePlugin",
+        "PIL.ImageDraw", "PIL.ImageFont",
         # Network / HTTP
-        "requests", "urllib3", "certifi", "idna", "charset_normalizer",
+        "requests", "requests.adapters", "requests.auth",
+        "requests.sessions", "requests.models",
+        "urllib3", "urllib3.util", "urllib3.util.retry",
+        "urllib3.util.ssl_", "urllib3.contrib",
+        "certifi", "idna", "charset_normalizer",
         # Cryptography (pdfminer.six dependency)
         "cryptography", "cryptography.hazmat", "cryptography.hazmat.primitives",
         "cryptography.hazmat.primitives.ciphers",
         "cryptography.hazmat.backends",
-        # Windows COM
-        "win32com", "win32com.client", "pythoncom", "pywintypes",
+        "cryptography.hazmat.bindings",
+        # PySide6 (GUI framework)
+        "PySide6", "PySide6.QtCore", "PySide6.QtGui", "PySide6.QtWidgets",
+        "shiboken6",
+        # Windows COM - COMPLETE (fixes win32timezone etc.)
+        "win32com", "win32com.client", "win32com.client.dynamic",
+        "win32com.client.gencache", "win32com.client.makepy",
+        "win32com.server", "win32com.shell",
+        "pythoncom", "pywintypes", "win32api", "win32con",
+        "win32timezone", "win32event", "win32file", "win32process",
+        "win32security", "win32gui", "win32print",
+        "winerror", "mmapfile", "odbc", "perfmon",
+        "servicemanager", "timer",
         # Standard library
         "unicodedata", "csv", "hashlib", "json", "re", "os", "sys",
         "multiprocessing", "ctypes", "threading", "subprocess",
         "getpass", "socket", "platform", "uuid", "time", "glob",
         "shutil", "tempfile", "zipfile", "pathlib",
+        "io", "collections", "functools", "itertools",
+        "datetime", "decimal", "copy", "math",
+        "logging", "traceback", "struct", "binascii",
+        "email", "http", "html",
     ]
     hidden = [f"--hidden-import={m}" for m in hidden_modules]
     hidden += [
@@ -147,6 +184,17 @@ def main():
         "--collect-all=pdfplumber",
         "--collect-all=charset_normalizer",
         "--collect-all=certifi",
+        "--collect-all=win32com",
+        "--collect-all=win32timezone",
+        "--collect-all=pythoncom",
+        "--collect-all=pywintypes",
+        "--collect-all=openpyxl",
+        "--collect-all=PIL",
+        "--collect-all=pandas",
+        "--collect-all=PySide6",
+        "--collect-all=shiboken6",
+        "--collect-all=requests",
+        "--collect-all=urllib3",
     ]
 
     # Paths
