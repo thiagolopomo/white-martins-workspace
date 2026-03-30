@@ -178,6 +178,7 @@ def main():
         "pythoncom", "pywintypes", "win32api", "win32con",
         "win32timezone", "win32event", "win32file", "win32process",
         "win32security", "win32gui", "win32print",
+        "win32.lib", "win32.lib.win32timezone",
         "winerror", "mmapfile", "odbc", "perfmon",
         "servicemanager", "timer",
         # Standard library
@@ -210,12 +211,19 @@ def main():
         "--collect-all=urllib3",
     ]
 
-    # Paths
+    # Paths - include pywin32 lib paths
+    py_base = Path(sys.executable).parent
+    win32_lib = py_base / "Lib" / "site-packages" / "win32" / "lib"
+    win32_dir = py_base / "Lib" / "site-packages" / "win32"
+    pywin32_sys = py_base / "Lib" / "site-packages" / "pywin32_system32"
     paths = [
         f"--paths={stage}",
         f"--paths={stage / 'logic'}",
         f"--paths={stage / 'pages'}",
         f"--paths={stage / 'workers'}",
+        f"--paths={win32_lib}",
+        f"--paths={win32_dir}",
+        f"--paths={pywin32_sys}",
     ]
 
     cmd_parts = [
