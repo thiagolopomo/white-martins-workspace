@@ -1,7 +1,7 @@
 {
-    "version": "1.0.13",
-    "notes": "Fix win32timezone path e hash corrompido",
+    "version": "1.0.14",
+    "notes": "Fix filtro conversao PDF - corrige acentuacao nas descricoes removidas",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.13/WhiteMartinsWorkspace_v1.0.13.zip",
-    "sha256": "157a84e9ec6b64c4603e8e3f070d05b210417a7f97124be03706dd55ada1b355"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.14/WhiteMartinsWorkspace_v1.0.14.zip",
+    "sha256": "5b3e799b15f683a4fd5b108db3793865dfbc3c7a9983c27d8bd88f5146e6898e"
 }
