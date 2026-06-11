@@ -18,7 +18,12 @@ def run(cmd, cwd=None):
     print(f"  > {cmd[:120]}...")
     r = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=cwd)
     if r.returncode != 0:
-        print(f"  ERRO: {r.stderr[:300]}")
+        log = Path(__file__).parent / "build_error.log"
+        log.write_text(
+            f"CMD:\n{cmd}\n\nSTDOUT:\n{r.stdout}\n\nSTDERR:\n{r.stderr}",
+            encoding="utf-8"
+        )
+        print(f"  ERRO (log completo em {log.name}): {r.stderr[-500:]}")
     return r.returncode == 0
 
 
@@ -226,33 +231,43 @@ def main():
         f"--paths={pywin32_sys}",
     ]
 
-    cmd_parts = [
-        sys.executable, "-m", "PyInstaller",
-        "--noconfirm", "--onedir", "--windowed",
+    # 3a. Gerar .spec (makespec aceita as mesmas opções de análise do build)
+    makespec_parts = [
+        sys.executable, "-m", "PyInstaller.utils.cliutils.makespec",
+        "--onedir", "--windowed",
         '--name=White Martins Workspace',
         f'--icon={icon_path}',
-        f'--distpath={dist / "output"}',
-        f'--workpath={dist / "build_temp"}',
         f'--specpath={dist}',
     ] + add_data + hidden + paths + [str(stage / "main.py")]
 
-    cmd = " ".join(f'"{c}"' if " " in str(c) else str(c) for c in cmd_parts)
-    ok = run(cmd)
+    cmd = " ".join(f'"{c}"' if " " in str(c) else str(c) for c in makespec_parts)
+    if not run(cmd):
+        print("\n  ERRO: makespec falhou. Abortando.")
+        sys.exit(1)
 
-    if not ok:
-        print("\n  WARN PyInstaller falhou. Tentando com opções simplificadas...")
-        # Fallback: copiar stage inteira como --add-data
-        cmd_simple = (
-            f'{sys.executable} -m PyInstaller --noconfirm --onedir --windowed '
-            f'--name "White Martins Workspace" '
-            f'--icon "{icon_path}" '
-            f'--distpath "{dist / "output"}" '
-            f'--workpath "{dist / "build_temp"}" '
-            f'--specpath "{dist}" '
-            f'--paths "{stage}" '
-            f'"{stage / "main.py"}"'
+    # 3b. Inserir recursion limit no topo do spec
+    # (analise de imports do pandas/polars/scipy estoura o limite padrao - fix
+    #  oficial recomendado pelo PyInstaller para RecursionError)
+    spec_path = dist / "White Martins Workspace.spec"
+    spec_content = spec_path.read_text(encoding="utf-8")
+    if "setrecursionlimit" not in spec_content:
+        spec_content = (
+            "import sys\n"
+            "sys.setrecursionlimit(sys.getrecursionlimit() * 10)\n"
+            + spec_content
         )
-        run(cmd_simple)
+        spec_path.write_text(spec_content, encoding="utf-8")
+
+    # 3c. Buildar a partir do spec - sem fallback: se falhar, aborta
+    cmd_build = (
+        f'{sys.executable} -m PyInstaller --noconfirm '
+        f'--distpath "{dist / "output"}" '
+        f'--workpath "{dist / "build_temp"}" '
+        f'"{spec_path}"'
+    )
+    if not run(cmd_build):
+        print("\n  ERRO: PyInstaller falhou. Abortando build (NADA foi gerado).")
+        sys.exit(1)
 
     # ── 4. Copiar assets extras pro output ──
     print("\n[4/4] Finalizando...")
@@ -281,6 +296,33 @@ def main():
         p = dist / d
         if p.exists():
             shutil.rmtree(p, ignore_errors=True)
+
+    # ── 5. VERIFICAÇÃO: módulos críticos dentro do pacote ──
+    print("\n[5/5] Verificando módulos no pacote...")
+    exe_final = output_app / "White Martins Workspace.exe"
+    if not exe_final.exists():
+        print("  ERRO: EXE não foi gerado. Abortando.")
+        sys.exit(1)
+
+    required_mods = [
+        "logic.recon_logic", "logic.overview_logic", "logic.segregar_logic",
+        "logic.converter_logic", "logic.empresa_detect",
+        "workers.recon_worker", "workers.overview_worker",
+        "workers.segregar_worker", "workers.converter_worker",
+        "pages.recon_page", "pages.segregar_page", "pages.converter_page",
+    ]
+    # Em --onedir o PYZ fica embutido no exe; usar -r para listar recursivamente
+    r = subprocess.run(
+        f'{sys.executable} -m PyInstaller.utils.cliutils.archive_viewer -r "{exe_final}"',
+        shell=True, capture_output=True, text=True
+    )
+    listing = r.stdout + r.stderr
+    missing = [m for m in required_mods if f"'{m}'" not in listing]
+    if missing:
+        print(f"  ERRO: módulos AUSENTES do pacote: {missing}")
+        print("  Build INVÁLIDO - NÃO DISTRIBUIR. Abortando.")
+        sys.exit(1)
+    print(f"  OK - {len(required_mods)} módulos críticos presentes no pacote")
 
     print()
     print("=" * 60)
