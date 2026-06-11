@@ -1,7 +1,7 @@
 {
-    "version": "1.0.14",
-    "notes": "Fix filtro conversao PDF - corrige acentuacao nas descricoes removidas",
+    "version": "1.0.18",
+    "notes": "Fix",
     "mandatory": false,
-    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.14/WhiteMartinsWorkspace_v1.0.14.zip",
-    "sha256": "5b3e799b15f683a4fd5b108db3793865dfbc3c7a9983c27d8bd88f5146e6898e"
+    "url": "https://github.com/thiagolopomo/white-martins-workspace/releases/download/v1.0.18/WhiteMartinsWorkspace_v1.0.18.zip",
+    "sha256": "63587268eb75ad4ec730b40b07f2bb505a6095407da0d36f29ea1e4b37d3580e"
 }
